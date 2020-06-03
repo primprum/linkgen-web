@@ -1,1 +1,1 @@
-plumber::plumb("linkgen.R")$run(port=8888)
+plumber::plumb("linkgen.R")$run(host="0.0.0.0", port=8888)
