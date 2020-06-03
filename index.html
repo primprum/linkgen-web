@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="fire.png">
+    <link rel="manifest" href="icon/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Mediafire Link Generator</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h2 style="text-align: center;">Mediafire Link Generator</h2>
+        <form>
+            <label for="shared-link">Shared Link</label>
+            <input class="u-full-width" type="text" id="shared-link" name="shared-link">
+            <button id="submit-button" class="button-primary">Submit</button>
+            <p></p>
+            <textarea id="generated-link" name="generated-link" cols="100" rows="5"></textarea>
+        </form>
+    </div>
+    <script>
+        const form = document.querySelector('form'); 
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); 
+            
+            const formData = new FormData(form);
+            const link = formData.get('shared-link');
+
+            const sharedLink = {
+                link // name of variable should match real param endpoints in server
+            }
+
+            fetch('http://localhost:8888/linkgen', {
+                method: 'POST',
+                body: JSON.stringify(sharedLink),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(res => res.text())
+            .then(mytext => {
+                document.getElementById('generated-link').innerHTML = mytext; 
+            }).catch(err => console.log(err));
+        });
+    </script>
+</body>
+</html>
